@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+ 
+    <mapper namespace="com.steven.mapper.OperatorMapper">
+  
+        <select id="olist" resultType="Operators"> 
+            select
+            ono,oname,oemail,ophone,oques,oansw,ostate,opswd
+            from   sno_operator     
+        </select>    
+        
+          <delete id="delete" parameterType="String" >
+            delete from sno_operator where ono= #{ono}  
+        </delete>
+        
+          <insert id="add" parameterType="String" >
+            insert into sno_operator (ono,oname,oemail,ophone,oques,oansw,ostate,opswd) values 
+            (#{0},#{1},#{2},#{3},#{4},#{5},'no',#{6})   
+        </insert>
+        
+           <select id="nameolist" parameterType="String" resultType="Operators">
+            select 
+            ono,oname,oemail,ophone,oques,oansw,ostate,opswd
+            from   sno_operator  where oname LIKE  '%' ||  #{oname} || '%'   
+        </select>
+
+          <select id="getStateByOno" parameterType="String" resultType="String">
+            select
+            ostate from sno_operator
+            where ono= #{ono}
+          </select>
+          
+          <update id="updateOperator" >
+            update sno_operator set ostate=#{0} where ono=#{1}
+          </update>
+         
+            <select id="plist" resultType="Ptyh"> 
+            select
+            pno,pname,pemail,pphone,pques,pansw,pstate,ppswd
+            from   elec_ptyh     
+          </select>    
+          
+          <select id="ptyhlistbn" parameterType="String" resultType="Ptyh">
+            select 
+             pno,pname,pemail,pphone,pques,pansw,pstate,ppswd
+            from   elec_ptyh   where pname LIKE  '%' ||  #{pname} || '%'   
+        </select>
+        
+        <select id="getStateByPno" parameterType="String" resultType="String">
+            select
+            pstate from elec_ptyh
+            where pno= #{pno}
+          </select>
+          
+            <delete id="deletePtyh" parameterType="String" >
+            delete from elec_ptyh where pno= #{pno}  
+        </delete>
+
+ 
+	     <insert id="addPtyh" parameterType="String" >
+            insert into elecuser ( id,name,password,oemail,ophone,oques,oansw,ostate,orole) values 
+            (#{0},#{1},#{6},#{2},#{3},#{4},#{5},'no','ptyh')   
+         </insert>
+        
+         <update id="updatePtyh" >
+            update elec_ptyh set pstate=#{0} where pno=#{1}
+          </update>
+          
+          <select id="emzlist" resultType="Meters">
+            select 
+            seqnumber,timenow,meterid,powerh,powerz,powerf,powerw1,powerw2 
+            from  meter_electricity 
+          </select>
+          
+           <select id="emalist" resultType="Meters">
+            select 
+             voltagea,currenta,poweryou,powerwu,powershi,powerfactor,powerangle
+            from  meter_electricity 
+          </select>
+          
+           <select id="emblist" resultType="Meters">
+            select 
+             voltageb,currentb,bpoweryou,bpowerwu,bpowershi,bpowerfactor,bpowerangle
+            from  meter_electricity  
+          </select>
+          
+           <select id="emclist" resultType="Meters">
+            select 
+             voltagec,currentc,cpoweryou,cpowerwu,cpowershi,cpowerfactor,cpowerangle
+            from  meter_electricity 
+          </select>
+          
+            <!--    以下是经过查找得到的电表数据，注意不要和上面的发生混淆 -->
+            <select id="emzlistsear" parameterType="String" resultType="Meters">
+            select 
+            seqnumber,timenow,meterid,powerh,powerz,powerf,powerw1,powerw2 
+            from  meter_electricity 
+            where  timenow=#{0}  and   seqnumber=#{1}            
+            </select>
+           
+           <select id="emalistsear" parameterType="String" resultType="Meters">
+            select 
+             voltagea,currenta,poweryou,powerwu,powershi,powerfactor,powerangle
+            from  meter_electricity 
+             where  timenow=#{0}  and   seqnumber=#{1}
+          </select> 
+          
+          <select id="emblistsear" parameterType="String" resultType="Meters">
+            select 
+             voltageb,currentb,bpoweryou,bpowerwu,bpowershi,bpowerfactor,bpowerangle
+            from  meter_electricity  
+             where  timenow=#{0}  and   seqnumber=#{1}
+          </select>
+          
+            <select id="emclistsear" parameterType="String" resultType="Meters">
+            select 
+             voltagec,currentc,cpoweryou,cpowerwu,cpowershi,cpowerfactor,cpowerangle
+            from  meter_electricity  
+             where  timenow=#{0}  and   seqnumber=#{1}
+          </select>
+            
+            <update id="upgrade" parameterType="String">
+            update elecuser set orole='oper' where name=#{name}
+            </update>
+    </mapper>
